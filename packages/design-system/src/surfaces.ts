@@ -1,0 +1,85 @@
+import { colors } from "./colors";
+
+const statusBorders = {
+  "primary-1": colors["primary-500"],
+  "primary-2": colors["primary-600"],
+  "primary-3": colors["primary-700"],
+  "primary-4": colors["primary-800"],
+  "primary-5": colors["primary-900"],
+  "success-1": colors["success-500"],
+  "success-2": colors["success-600"],
+  "success-3": colors["success-700"],
+  "success-4": colors["success-800"],
+  "success-5": colors["success-900"],
+  "info-1": colors["info-500"],
+  "info-2": colors["info-600"],
+  "info-3": colors["info-700"],
+  "info-4": colors["info-800"],
+  "info-5": colors["info-900"],
+  "warning-1": colors["warning-500"],
+  "warning-2": colors["warning-600"],
+  "warning-3": colors["warning-700"],
+  "warning-4": colors["warning-800"],
+  "warning-5": colors["warning-900"],
+  "danger-1": colors["danger-500"],
+  "danger-2": colors["danger-600"],
+  "danger-3": colors["danger-700"],
+  "danger-4": colors["danger-800"],
+  "danger-5": colors["danger-900"],
+};
+
+export const lightSurfaces = {
+  background: {
+    "basic-1": colors["basic-100"],
+    "basic-2": colors["basic-200"],
+    "basic-3": colors["basic-300"],
+    "basic-4": colors["basic-400"],
+    "alternative-1": colors["basic-800"],
+    "alternative-2": colors["basic-900"],
+    "alternative-3": colors["basic-1000"],
+    "alternative-4": colors["basic-1100"],
+  },
+  border: {
+    "basic-1": colors["basic-100"],
+    "basic-2": colors["basic-200"],
+    "basic-3": colors["basic-300"],
+    "basic-4": colors["basic-400"],
+    "basic-5": colors["basic-500"],
+    "alternative-1": colors["basic-800"],
+    "alternative-2": colors["basic-900"],
+    "alternative-3": colors["basic-1000"],
+    "alternative-4": colors["basic-1100"],
+    "alternative-5": colors["basic-1100"],
+    ...statusBorders,
+  },
+  outline: colors["basic-transparent-200"],
+};
+
+export type Surfaces = typeof lightSurfaces;
+
+export const darkSurfaces: Surfaces = {
+  background: {
+    "basic-1": colors["basic-800"],
+    "basic-2": colors["basic-900"],
+    "basic-3": colors["basic-1000"],
+    "basic-4": colors["basic-1100"],
+    "alternative-1": colors["basic-100"],
+    "alternative-2": colors["basic-200"],
+    "alternative-3": colors["basic-300"],
+    "alternative-4": colors["basic-400"],
+  },
+  border: {
+    "basic-1": colors["basic-800"],
+    "basic-2": colors["basic-900"],
+    "basic-3": colors["basic-1000"],
+    "basic-4": colors["basic-1100"],
+    "basic-5": colors["basic-1100"],
+    "alternative-1": colors["basic-100"],
+    "alternative-2": colors["basic-200"],
+    "alternative-3": colors["basic-300"],
+    "alternative-4": colors["basic-400"],
+    "alternative-5": colors["basic-500"],
+    ...statusBorders,
+  },
+  outline: colors["basic-700"],
+};

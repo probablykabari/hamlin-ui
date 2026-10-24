@@ -1,0 +1,27 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": [
+    "/.agents/",
+    "/.claude/",
+    "/.oxlintrc.json",
+    "package.json",
+    "/pnpm-workspace.yaml",
+    "/skills-lock.json"
+  ],
+  "printWidth": 100,
+  "overrides": [
+    {
+      "files": ["*.test.ts", "*.spec.ts"],
+      "options": {
+        "printWidth": 120
+      }
+    },
+    {
+      "files": ["*.md", "*.html"],
+      "excludeFiles": [],
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
+}

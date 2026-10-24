@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "oxc"
+  ],
+  "categories": {
+    "correctness": "error"
+  },
+  "ignorePatterns": [
+    "/.agents/",
+    "/.claude/",
+    "/.oxlintrc.json",
+    "package.json",
+    "skills-lock.json",
+    "/pnpm-workspace.yaml"
+  ],
+  "rules": {},
+  "env": {
+    "builtin": true
+  }
+}
