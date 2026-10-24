@@ -1,6 +1,7 @@
 import { colors } from "./colors";
 import { darkInk, lightInk } from "./ink";
-import { fontSizes, radius, size, space } from "./scales";
+import { radius, size, space } from "./scales";
+import { fontSizes } from './fonts';
 import { darkShadows, lightShadows } from "./shadows";
 import { darkSurfaces, lightSurfaces } from "./surfaces";
 import { tints } from "./tints";
