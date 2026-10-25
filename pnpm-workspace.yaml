@@ -2,6 +2,12 @@ packages:
     - apps/**
     - packages/**
     
+allowBuilds:
+  lefthook: true
+
+onlyBuiltDependencies:
+    - lefthook
+    
 tasks:
   build:
     dependsOn:

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "maestro": {
+      "type": "stdio",
+      "command": "maestro",
+      "args": ["mcp", "--working-dir", "./flows"],
+      "env": {}
+    }
+  }
+}

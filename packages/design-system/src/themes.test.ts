@@ -1,6 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { colors } from "./colors";
 import { darkTheme, lightTheme, type Theme } from "./index";
+
+vi.mock("react-native", () => ({ Platform: { OS: "ios" } }));
 
 function leaves(value: object, prefix = ""): [string, unknown][] {
   return Object.entries(value).flatMap(([key, child]) =>

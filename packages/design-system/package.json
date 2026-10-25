@@ -8,16 +8,22 @@
   "type": "module",
   "main": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./styles": "./src/styles/index.ts"
   },
   "scripts": {
     "build": "echo 'need a  build script'"
   },
   "devDependencies": {
+    "@types/react": "^19.3.0",
+    "react": "^19.3.1",
+    "react-native": "^0.88.0",
     "react-native-nitro-modules": "0.37.1",
     "react-native-unistyles": "^3.6.0"
   },
   "peerDependencies": {
+    "react": "^19.3.1",
+    "react-native": "^0.88.0",
     "react-native-nitro-modules": "0.37.1",
     "react-native-unistyles": "^3.6.0"
   }

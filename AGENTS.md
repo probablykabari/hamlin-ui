@@ -4,7 +4,7 @@
 
 `hamlin-ui` is a design system for React Native and React Native Web, built on Unistyles v3. It is written in TypeScript and published publicly to npm.
 
-The package ships the light and dark themes and the breakpoints as plain objects and types. Consumers modify them and call `StyleSheet.configure` themselves. Component stylesheets come later. No build step exists yet.
+The package ships the light and dark themes and the breakpoints as plain objects and types. Consumers modify them and call `StyleSheet.configure` themselves. Stylesheets (`typography`, later component styles) ship from `hamlin-ui/styles` (`src/styles/`). That entry point calls `StyleSheet.create` on import, so consumers MUST import it after `StyleSheet.configure`, and the root `src/index.ts` MUST NOT import from `src/styles/`. No build step exists yet.
 
 ## Layout
 
@@ -33,6 +33,7 @@ Run from the repo root:
 - Lint: oxlint with the `typescript`, `unicorn`, and `oxc` plugins. The `correctness` category is an error.
 - Format: oxfmt. Print width is 100 (120 for `*.test.ts`/`*.spec.ts`). Markdown and HTML use a tab width of 4.
 - TypeScript 7 (the native Go compiler).
+- Tests run in Node. A test that imports the theme MUST mock `react-native` (`Platform`), because `createFont` reads `Platform.OS`.
 - `.claude/settings.json` has a PostToolUse hook that runs `oxlint --fix` and `oxfmt` on every file Claude edits or writes. Do not run the formatter by hand after each edit.
 
 ## Unistyles
