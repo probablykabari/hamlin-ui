@@ -16,4 +16,3 @@ export const fontSizes = {
   15: 114,
   16: 134,
 } as const;
-
