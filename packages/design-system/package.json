@@ -22,8 +22,8 @@
     "react-native-unistyles": "^3.6.0"
   },
   "peerDependencies": {
-    "react": "^19.3.1",
-    "react-native": "^0.88.0",
+    "react": ">=19.0.0",
+    "react-native": ">=0.81.0",
     "react-native-nitro-modules": "0.37.1",
     "react-native-unistyles": "^3.6.0"
   }

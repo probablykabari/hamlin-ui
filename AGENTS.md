@@ -8,7 +8,8 @@ The package ships the light and dark themes and the breakpoints as plain objects
 
 ## Layout
 
-- pnpm workspace (`pnpm@12.15.0`, enforced by `devEngines` with `onFail: error`). Workspace globs: `packages/*` and `apps/*` (`apps/` does not exist yet).
+- pnpm workspace (`pnpm@12.15.0`, enforced by `devEngines` with `onFail: error`). Workspace globs: `packages/*` and `apps/*`.
+- `apps/demo/` is an Expo app (npm name `demo`) that uses `hamlin-ui` through the Unistyles Metro integration (`metro.config.js`, no Babel plugin). `unistyles.ts` calls `StyleSheet.configure` and is imported first in `index.ts`. Maestro flows are in `apps/demo/.maestro/`.
 - `packages/design-system/` is the published package. Its npm name is `hamlin-ui` (not `design-system`). Use `--filter hamlin-ui` to target it.
 - The root package `hamlin-ui-workspace` holds the shared dev tooling only.
 - `pnpm-workspace.yaml` declares task ordering: `build` depends on `^build` (dependencies build first), and `test` depends on `build`.
@@ -17,16 +18,19 @@ The package ships the light and dark themes and the breakpoints as plain objects
 
 Run from the repo root:
 
-| Task                | Command                                |
-| ------------------- | -------------------------------------- |
-| Install             | `pnpm install --reporter=append-only`  |
-| Lint                | `pnpm lint` (oxlint) / `pnpm lint:fix` |
-| Format              | `pnpm fmt` (oxfmt) / `pnpm fmt:check`  |
-| Test (watch)        | `pnpm test`                            |
-| Test once           | `pnpm vitest run`                      |
-| Single test file    | `pnpm vitest run <path>`               |
-| Single test by name | `pnpm vitest run -t "<name>"`          |
-| Type check          | `pnpm tsc --noEmit`                    |
+| Task                | Command                                    |
+| ------------------- | ------------------------------------------ |
+| Install             | `pnpm install --reporter=append-only`      |
+| Lint                | `pnpm lint` (oxlint) / `pnpm lint:fix`     |
+| Format              | `pnpm fmt` (oxfmt) / `pnpm fmt:check`      |
+| Test (watch)        | `pnpm test`                                |
+| Test once           | `pnpm vitest run`                          |
+| Single test file    | `pnpm vitest run <path>`                   |
+| Single test by name | `pnpm vitest run -t "<name>"`              |
+| Type check          | `pnpm tsc --noEmit`                        |
+| Demo type check     | `pnpm --filter demo exec tsc --noEmit`     |
+| Demo on iOS         | `pnpm --filter demo exec expo run:ios`     |
+| Demo on web         | `pnpm --filter demo exec expo start --web` |
 
 ## Tooling
 

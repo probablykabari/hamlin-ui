@@ -1,0 +1,17 @@
+appId: com.probablykabari.hamlin-ui-demo
+name: Typography and theme switch (iOS)
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Theme: light"
+    timeout: 30000
+- assertVisible: "Body line height: 23"
+- assertVisible: "Heading 1"
+- assertVisible: "Heading 6"
+- assertVisible: "Body text sample"
+- assertVisible: "Label text sample"
+- assertVisible: "Caption text sample"
+- tapOn: "Toggle theme"
+- assertVisible: "Theme: dark"
+- tapOn: "Toggle theme"
+- assertVisible: "Theme: light"

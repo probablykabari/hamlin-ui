@@ -1,0 +1,17 @@
+url: http://localhost:8081
+name: Typography and theme switch (web)
+---
+- openLink: http://localhost:8081
+- extendedWaitUntil:
+    visible: "Theme: light"
+    timeout: 60000
+- assertVisible: "Body line height: 25"
+- assertVisible: "Heading 1"
+- assertVisible: "Heading 6"
+- assertVisible: "Body text sample"
+- assertVisible: "Label text sample"
+- assertVisible: "Caption text sample"
+- tapOn: "Toggle theme"
+- assertVisible: "Theme: dark"
+- tapOn: "Toggle theme"
+- assertVisible: "Theme: light"

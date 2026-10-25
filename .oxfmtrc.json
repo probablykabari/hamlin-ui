@@ -6,7 +6,8 @@
     "/.oxlintrc.json",
     "package.json",
     "/pnpm-workspace.yaml",
-    "/skills-lock.json"
+    "/skills-lock.json",
+    "/styles/"
   ],
   "printWidth": 100,
   "overrides": [
