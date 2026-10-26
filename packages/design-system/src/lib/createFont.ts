@@ -1,52 +1,11 @@
 import { Platform } from "react-native";
-
-export type FontScale = Record<
-  1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16,
-  number
->;
-
-type SizeKey = keyof FontScale;
-
-export type FontWeight = "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
-
-export type Font = {
-  family: string;
-  size: FontScale;
-  lineHeight: FontScale;
-  letterSpacing: FontScale;
-  weight: Record<SizeKey, FontWeight>;
-  face: Record<FontWeight, string>;
-};
-
-export type FontInput = {
-  family: string;
-  webFamily?: string;
-  size?: Partial<FontScale>;
-  lineHeight?: Partial<FontScale> | ((size: number) => number);
-  letterSpacing?: Partial<FontScale>;
-  weight?: Partial<Record<SizeKey, FontWeight>>;
-  face?: Partial<Record<FontWeight, string>>;
-};
+import { lineHeight } from "./lineHeight";
+import { ramp } from "./ramp";
+import type { Font, FontInput, FontScale, FontWeight, SizeKey } from "./types";
 
 const sizeKeys = Array.from({ length: 16 }, (_, i) => (i + 1) as SizeKey);
 
 const fontWeights: FontWeight[] = ["100", "200", "300", "400", "500", "600", "700", "800", "900"];
-
-// Each step grows 8% at UI sizes, easing up to 19% at display sizes: small text
-// wants about a point between steps, large text wants a proportion.
-export const ramp = (start: number): FontScale => {
-  const out: Record<number, number> = {};
-  let px = start;
-  for (let i = 1; i <= 16; i++) {
-    out[i] = Math.round(px);
-    px *= Math.min(1.19, 1.05 + i * 0.019);
-  }
-  return out as FontScale;
-};
-
-// Native runs tighter because its text box has no half leading above the cap line.
-export const lineHeight = (size: number, platform: "native" | "web"): number =>
-  platform === "native" ? Math.round(size * 1.2 + 4) : Math.round(size * 1.35 + 3);
 
 const forwardFill = <T>(table: Partial<Record<SizeKey, T>> = {}, first: T): Record<SizeKey, T> => {
   const out = {} as Record<SizeKey, T>;
@@ -58,10 +17,24 @@ const forwardFill = <T>(table: Partial<Record<SizeKey, T>> = {}, first: T): Reco
   return out;
 };
 
+/**
+ * Builds a theme font for the current platform. It reads `Platform.OS`, so the result differs
+ * on native and web. Sizes start from `ramp(13)` on native and `ramp(11)` on web, so one
+ * step reads at a similar physical size on each platform.
+ *
+ * @example
+ * createFont({
+ *   family: "Inter",
+ *   webFamily: "Inter, system-ui, sans-serif",
+ *   weight: { 1: "400", 6: "700" },
+ *   face: { "400": "Inter-Regular", "700": "Inter-Bold" },
+ * });
+ */
 export const createFont = (input: FontInput): Font => {
   const platform = Platform.OS === "web" ? "web" : "native";
   const family = platform === "web" ? (input.webFamily ?? input.family) : input.family;
-  const size = { ...ramp(11), ...input.size };
+  const rampBase = platform === "web" ? 11 : 13;
+  const size = { ...ramp(rampBase), ...input.size };
 
   const rule =
     typeof input.lineHeight === "function"

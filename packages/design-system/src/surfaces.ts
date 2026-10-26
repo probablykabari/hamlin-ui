@@ -1,85 +1,82 @@
-import { colors } from "./colors";
+import type { Colors } from "./colors";
+import type { BorderSteps, Mode, StatusName } from "./lib/types";
 
-const statusBorders = {
-  "primary-1": colors["primary-500"],
-  "primary-2": colors["primary-600"],
-  "primary-3": colors["primary-700"],
-  "primary-4": colors["primary-800"],
-  "primary-5": colors["primary-900"],
-  "success-1": colors["success-500"],
-  "success-2": colors["success-600"],
-  "success-3": colors["success-700"],
-  "success-4": colors["success-800"],
-  "success-5": colors["success-900"],
-  "info-1": colors["info-500"],
-  "info-2": colors["info-600"],
-  "info-3": colors["info-700"],
-  "info-4": colors["info-800"],
-  "info-5": colors["info-900"],
-  "warning-1": colors["warning-500"],
-  "warning-2": colors["warning-600"],
-  "warning-3": colors["warning-700"],
-  "warning-4": colors["warning-800"],
-  "warning-5": colors["warning-900"],
-  "danger-1": colors["danger-500"],
-  "danger-2": colors["danger-600"],
-  "danger-3": colors["danger-700"],
-  "danger-4": colors["danger-800"],
-  "danger-5": colors["danger-900"],
-};
+export const borderSteps: BorderSteps = { 1: "500", 2: "600", 3: "700", 4: "800", 5: "900" };
 
-export const lightSurfaces = {
-  background: {
-    "basic-1": colors["basic-100"],
-    "basic-2": colors["basic-200"],
-    "basic-3": colors["basic-300"],
-    "basic-4": colors["basic-400"],
-    "alternative-1": colors["basic-800"],
-    "alternative-2": colors["basic-900"],
-    "alternative-3": colors["basic-1000"],
-    "alternative-4": colors["basic-1100"],
-  },
-  border: {
-    "basic-1": colors["basic-100"],
-    "basic-2": colors["basic-200"],
-    "basic-3": colors["basic-300"],
-    "basic-4": colors["basic-400"],
-    "basic-5": colors["basic-500"],
-    "alternative-1": colors["basic-800"],
-    "alternative-2": colors["basic-900"],
-    "alternative-3": colors["basic-1000"],
-    "alternative-4": colors["basic-1100"],
-    "alternative-5": colors["basic-1100"],
-    ...statusBorders,
-  },
-  outline: colors["basic-transparent-200"],
-};
+export function statusBorders<C extends Record<string, string>, S extends StatusName<C>>(
+  theme: { colors: C },
+  status: S,
+  steps: BorderSteps,
+) {
+  const colors: Record<string, string> = theme.colors;
+  return {
+    [`${status}-1`]: colors[`${status}-${steps[1]}`],
+    [`${status}-2`]: colors[`${status}-${steps[2]}`],
+    [`${status}-3`]: colors[`${status}-${steps[3]}`],
+    [`${status}-4`]: colors[`${status}-${steps[4]}`],
+    [`${status}-5`]: colors[`${status}-${steps[5]}`],
+  } as Record<`${S}-${keyof BorderSteps}`, string>;
+}
 
-export type Surfaces = typeof lightSurfaces;
+export function createSurfaces(theme: { colors: Colors }, mode: Mode, steps: BorderSteps) {
+  const { colors } = theme;
+  const light = mode === "light";
+  return {
+    background: light
+      ? {
+          "basic-1": colors["basic-100"],
+          "basic-2": colors["basic-200"],
+          "basic-3": colors["basic-300"],
+          "basic-4": colors["basic-400"],
+          "alternative-1": colors["basic-700"],
+          "alternative-2": colors["basic-800"],
+          "alternative-3": colors["basic-900"],
+          "alternative-4": colors["basic-950"],
+        }
+      : {
+          "basic-1": colors["basic-950"],
+          "basic-2": colors["basic-800"],
+          "basic-3": colors["basic-700"],
+          "basic-4": colors["basic-600"],
+          "alternative-1": colors["basic-100"],
+          "alternative-2": colors["basic-200"],
+          "alternative-3": colors["basic-300"],
+          "alternative-4": colors["basic-400"],
+        },
+    border: {
+      ...(light
+        ? {
+            "basic-1": colors["basic-200"],
+            "basic-2": colors["basic-300"],
+            "basic-3": colors["basic-400"],
+            "basic-4": colors["basic-500"],
+            "basic-5": colors["basic-600"],
+            "alternative-1": colors["basic-600"],
+            "alternative-2": colors["basic-700"],
+            "alternative-3": colors["basic-800"],
+            "alternative-4": colors["basic-900"],
+            "alternative-5": colors["basic-950"],
+          }
+        : {
+            "basic-1": colors["basic-900"],
+            "basic-2": colors["basic-700"],
+            "basic-3": colors["basic-600"],
+            "basic-4": colors["basic-500"],
+            "basic-5": colors["basic-400"],
+            "alternative-1": colors["basic-50"],
+            "alternative-2": colors["basic-100"],
+            "alternative-3": colors["basic-200"],
+            "alternative-4": colors["basic-300"],
+            "alternative-5": colors["basic-400"],
+          }),
+      ...statusBorders(theme, "primary", steps),
+      ...statusBorders(theme, "accent", steps),
+      ...statusBorders(theme, "success", steps),
+      ...statusBorders(theme, "info", steps),
+      ...statusBorders(theme, "warning", steps),
+      ...statusBorders(theme, "danger", steps),
+    },
+  };
+}
 
-export const darkSurfaces: Surfaces = {
-  background: {
-    "basic-1": colors["basic-800"],
-    "basic-2": colors["basic-900"],
-    "basic-3": colors["basic-1000"],
-    "basic-4": colors["basic-1100"],
-    "alternative-1": colors["basic-100"],
-    "alternative-2": colors["basic-200"],
-    "alternative-3": colors["basic-300"],
-    "alternative-4": colors["basic-400"],
-  },
-  border: {
-    "basic-1": colors["basic-800"],
-    "basic-2": colors["basic-900"],
-    "basic-3": colors["basic-1000"],
-    "basic-4": colors["basic-1100"],
-    "basic-5": colors["basic-1100"],
-    "alternative-1": colors["basic-100"],
-    "alternative-2": colors["basic-200"],
-    "alternative-3": colors["basic-300"],
-    "alternative-4": colors["basic-400"],
-    "alternative-5": colors["basic-500"],
-    ...statusBorders,
-  },
-  outline: colors["basic-700"],
-};
+export type Surfaces = ReturnType<typeof createSurfaces>;

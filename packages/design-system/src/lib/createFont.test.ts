@@ -1,34 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createFont, lineHeight, ramp } from "./typography";
+import { createFont } from "./createFont";
 
 const platform = vi.hoisted(() => ({ OS: "ios" }));
 vi.mock("react-native", () => ({ Platform: platform }));
 
 afterEach(() => {
   platform.OS = "ios";
-});
-
-describe("ramp", () => {
-  it("builds the scale from the start size", () => {
-    expect(Object.values(ramp(11))).toEqual([11, 12, 13, 14, 16, 18, 21, 25, 30, 36, 42, 50, 60, 71, 85, 101]);
-  });
-
-  it("grows each step by 5% to 19%", () => {
-    // A large start keeps the per-step rounding error under 0.1%.
-    const steps = Object.values(ramp(1000));
-    for (let i = 1; i < steps.length; i++) {
-      const growth = steps[i] / steps[i - 1];
-      expect(growth).toBeGreaterThanOrEqual(1.049);
-      expect(growth).toBeLessThanOrEqual(1.191);
-    }
-  });
-});
-
-describe("lineHeight", () => {
-  it("runs tighter on native than on web", () => {
-    expect(lineHeight(16, "native")).toBe(23);
-    expect(lineHeight(16, "web")).toBe(25);
-  });
 });
 
 describe("createFont", () => {
@@ -50,23 +27,23 @@ describe("createFont", () => {
 
   it("merges size overrides over the default ramp", () => {
     const font = createFont({ family: "Inter", size: { 5: 17 } });
-    expect(font.size[4]).toBe(14);
+    expect(font.size[4]).toBe(17);
     expect(font.size[5]).toBe(17);
   });
 
   it("applies a line height function to every size", () => {
     const font = createFont({ family: "Inter", lineHeight: (size) => size * 2 });
-    expect(font.lineHeight[5]).toBe(32);
-    expect(font.lineHeight[16]).toBe(202);
+    expect(font.lineHeight[5]).toBe(38);
+    expect(font.lineHeight[16]).toBe(238);
   });
 
   it("carries a line height override upward as an offset from the rule", () => {
+    // The native rule gives 27 at step 5, so the override adds 3 from step 5 up.
     const font = createFont({ family: "Inter", lineHeight: { 5: 30 } });
-    const offset = 30 - lineHeight(16, "native");
-    expect(font.lineHeight[4]).toBe(lineHeight(14, "native"));
+    expect(font.lineHeight[4]).toBe(24);
     expect(font.lineHeight[5]).toBe(30);
-    expect(font.lineHeight[6]).toBe(lineHeight(18, "native") + offset);
-    expect(font.lineHeight[16]).toBe(lineHeight(101, "native") + offset);
+    expect(font.lineHeight[6]).toBe(33);
+    expect(font.lineHeight[16]).toBe(150);
   });
 
   it("uses named faces on native and falls back to the family", () => {
@@ -80,6 +57,6 @@ describe("createFont", () => {
     const font = createFont({ family: "Inter", webFamily: "Inter, sans-serif", face: { "700": "Inter-Bold" } });
     expect(font.family).toBe("Inter, sans-serif");
     expect(font.face["700"]).toBe("Inter, sans-serif");
-    expect(font.lineHeight[5]).toBe(lineHeight(16, "web"));
+    expect(font.lineHeight[5]).toBe(25);
   });
 });

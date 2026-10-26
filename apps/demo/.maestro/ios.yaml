@@ -5,7 +5,7 @@ name: Typography and theme switch (iOS)
 - extendedWaitUntil:
     visible: "Theme: light"
     timeout: 30000
-- assertVisible: "Body line height: 23"
+- assertVisible: "Body line height: 27"
 - assertVisible: "Heading 1"
 - assertVisible: "Heading 6"
 - assertVisible: "Body text sample"
@@ -15,3 +15,27 @@ name: Typography and theme switch (iOS)
 - assertVisible: "Theme: dark"
 - tapOn: "Toggle theme"
 - assertVisible: "Theme: light"
+# Each check scrolls down to its element, in page order: the screen no longer fits every row.
+- scrollUntilVisible:
+    element: "filled primary"
+- scrollUntilVisible:
+    element: "filled success"
+- tapOn: "filled success"
+- scrollUntilVisible:
+    element: "outline danger"
+- scrollUntilVisible:
+    element: "ghost danger"
+- scrollUntilVisible:
+    element: "Size xs"
+- scrollUntilVisible:
+    element: "Size xl"
+- scrollUntilVisible:
+    element: "settings"
+- scrollUntilVisible:
+    element: "Icon disabled"
+- scrollUntilVisible:
+    element: "Pressed filled"
+- scrollUntilVisible:
+    element: "Surface base 1"
+- scrollUntilVisible:
+    element: "Surface alt 4 bordered"

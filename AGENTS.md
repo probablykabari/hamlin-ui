@@ -4,7 +4,7 @@
 
 `hamlin-ui` is a design system for React Native and React Native Web, built on Unistyles v3. It is written in TypeScript and published publicly to npm.
 
-The package ships the light and dark themes and the breakpoints as plain objects and types. Consumers modify them and call `StyleSheet.configure` themselves. Stylesheets (`typography`, later component styles) ship from `hamlin-ui/styles` (`src/styles/`). That entry point calls `StyleSheet.create` on import, so consumers MUST import it after `StyleSheet.configure`, and the root `src/index.ts` MUST NOT import from `src/styles/`. No build step exists yet.
+The package ships the light and dark themes, the `createTheme` builder, and the breakpoints as plain objects and types. `createTheme(mode, { colors, tints, ink, surfaces })` derives `tints`, `surfaces`, and `ink` from the palette and the ramp steps. `statusTints`, `statusInk`, and `statusBorders` build the tokens of one status, typed from the keys of `theme.colors`. Consumers modify them and call `StyleSheet.configure` themselves. Stylesheets (`typography`, `button`, `surfaces`, `stack`) ship from `hamlin-ui/styles` (`src/styles/`). That entry point calls `StyleSheet.create` on import, so consumers MUST import it after `StyleSheet.configure`, and the root `src/index.ts` MUST NOT import from `src/styles/`. No build step exists yet.
 
 ## Layout
 
@@ -44,4 +44,5 @@ Run from the repo root:
 
 - Load the `react-native-unistyles-v3` skill (`.agents/skills/react-native-unistyles-v3/`) before you write or change any styling, theme, breakpoint, or variant code. Its `references/` folder covers setup, API, styling patterns, third-party integration, and common issues.
 - `skills-lock.json` pins that skill to `jpudysz/react-native-unistyles`. Do not edit the skill files by hand.
+- A `StyleSheet.create` callback MUST return an object literal (`(theme) => ({ ... })`). With a block body (`(theme) => { ...; return {...} }`) the Unistyles transform skips the stylesheet: web still renders, but on native the variant and compound styles of some keys do not apply. Put helpers at module level and pass them `theme`. Check with `withUnistylesConfig(config, { debug: true })` in `apps/demo/metro.config.js`: every stylesheet MUST be listed in the Metro log.
 - Every component MUST work on both native and web. For web-specific behavior (CSS variables, SSR), read `references/styling-patterns.md`.

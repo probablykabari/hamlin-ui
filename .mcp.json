@@ -3,7 +3,7 @@
     "maestro": {
       "type": "stdio",
       "command": "maestro",
-      "args": ["mcp", "--working-dir", "./flows"],
+      "args": ["mcp", "--working-dir", "./apps/demo/"],
       "env": {}
     }
   }
