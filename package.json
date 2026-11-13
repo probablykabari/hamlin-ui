@@ -1,8 +1,7 @@
 {
   "name": "hamlin-ui-workspace",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "vitest run",
     "fmt": "oxfmt",
@@ -10,8 +9,8 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["design-system", "react native"],
+  "author": "Kabari Hendrick <me@probablykabari.fyi>",
   "license": "ISC",
   "devEngines": {
     "packageManager": {
